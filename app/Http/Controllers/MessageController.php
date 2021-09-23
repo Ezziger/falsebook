@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Message;
 
 class MessageController extends Controller
 {
@@ -13,7 +14,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $messages = Message::with('user')->latest()->paginate(10);
+        return view('messages.index', compact('messages'));
     }
 
     /**
@@ -34,7 +36,23 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $imageName = "";
+        $newMessage = $request->validate([
+            'content' => 'required',
+        ]);
+
+        if ($request->image) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        }
+        
+        $newMessage = new Message;
+        $newMessage->image = '/images/' . $imageName;
+        $newMessage->content = $request->content;
+        $newMessage->user_id = auth()->user()->id;
+        $newMessage->save();
+        return redirect()->route('messages.index')
+                         ->with('success', 'Votre message a bien été posté !' );
     }
 
     /**
@@ -45,7 +63,8 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        //
+        $message = Message::find($id)->load('user');
+        return view('messages.show', compact('message'));
     }
 
     /**
@@ -56,7 +75,8 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $message = Message::findOrFail($id);
+        return view('messages.edit', compact('message'));
     }
 
     /**
@@ -68,7 +88,25 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $message = Message::findOrFail($id);
+        $this->authorize('update', $message);
+        $updateMessage = $request->validate([
+            'image' => 'nullable',
+            'content' => 'required',
+        ]);
+
+        $updateMessage = $request->except('_token', '_method');
+
+        if ($request->image) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $updateMessage['image'] = "/images/" . $imageName;
+        }
+
+        Message::whereId($id)->update($updateMessage);
+        return redirect()->route('messages.index')
+                         ->with('success', 'Votre message a été modifié avec succès');
+
     }
 
     /**
@@ -79,6 +117,10 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $message = Message::findOrFail($id);
+        $this->autorize('delete', $message);
+        $message->delete();
+        return redirect()->route('messages.index')
+                         ->with('success', 'Votre profil a été supprimé !');
     }
 }

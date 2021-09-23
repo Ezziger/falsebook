@@ -19,7 +19,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('image', 50)->nullable();
-            $table->string('tags', 30);
+            $table->string('tags', 30)->nullable();
             $table->timestamps();
         });
     }

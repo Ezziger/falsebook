@@ -9,12 +9,19 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'content',
+        'image',
+        'tags',
+        'user_id'
+    ];
+
     public function comments()
     {
         return $this->hasMany(Comment::class); // écriture équivalente : return $this->hasMany('App\Models\Comment');
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class); // écriture équivalente : return $this->belongsTo('App\Models\User');
     }
