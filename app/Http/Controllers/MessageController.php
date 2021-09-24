@@ -124,4 +124,12 @@ class MessageController extends Controller
         return redirect()->route('messages.index')
                          ->with('success', 'Votre profil a été supprimé !');
     }
+
+    public function search() {
+        $q = request()->input('q');
+        $messages = Message::where('content', 'like', "%$q%")
+               ->orWhere('tags', 'like', "%$q%")
+               ->paginate(5);
+        return view('messages.search')->with('messages', $messages);
+    }
 }

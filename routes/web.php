@@ -25,3 +25,4 @@ Route::get('/profil', [App\Http\Controllers\UserController::class, 'index'])->na
 Route::resource('/user', App\Http\Controllers\UserController::class)->except('create');
 Route::resource('/comment', App\Http\Controllers\CommentController::class);
 Route::resource('/messages', App\Http\Controllers\MessageController::class);
+Route::get('/search', 'App\Http\Controllers\MessageController@search')->name('messages.search');

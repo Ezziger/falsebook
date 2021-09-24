@@ -61,9 +61,9 @@
                 </ul>
             </div>
         </div>
-        <form class="row mt-2 mr-2" action="" method="get" role="search">
+        <form class="row mt-2 mr-2" action="{{ route('messages.search') }}" method="get" role="search">
             <div class="input-group">
-                <input type="search" class="form-control" name="q" id="recherche" placeholder="Rechercher un Quack">
+                <input type="search" class="form-control" name="q" id="recherche" placeholder="Rechercher">
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary">Go !</button>
                 </span>
