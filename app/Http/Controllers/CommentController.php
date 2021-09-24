@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -34,8 +35,26 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $imageName = "";
+        $newComment = $request->validate([
+            'content' => 'required',
+        ]);
+
+        if ($request->input('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        }
+        
+        $newComment = new Comment;
+        $newComment->image = '/images/' . $imageName;
+        $newComment->content = $request->content;
+        $newComment->message_id = $request->message_id;
+        $newComment->user_id = auth()->user()->id;
+        $newComment->save();
+        return redirect()->back()
+                         ->with('success', 'Votre Commentaire a bien été posté !' );
     }
+    
 
     /**
      * Display the specified resource.
@@ -56,7 +75,8 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view('comment.edit', compact('comment'));
     }
 
     /**
@@ -68,7 +88,25 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $this->authorize('update', $comment);
+        $updateComment = $request->validate([
+            'image' => 'nullable',
+            'content' => 'required',
+        ]);
+
+        $updateComment = $request->except('_token', '_method');
+
+        if ($request->image) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $updateComment['image'] = "/images/" . $imageName;
+        }
+
+        Comment::whereId($id)->update($updateComment);
+        return redirect()->route('messages.show', $comment->message_id)
+                         ->with('success', 'Votre message a été modifié avec succès');
+
     }
 
     /**
@@ -79,6 +117,9 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::findOrfail($id);
+        $this->authorize('delete', $comment);
+        $comment->delete();
+        return back()->with('success', 'commentaire supprimé');
     }
 }

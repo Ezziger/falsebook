@@ -9,6 +9,8 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $with = ['comments'];
+
     protected $fillable = [
         'content',
         'image',

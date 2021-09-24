@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Message;
 
@@ -118,7 +119,7 @@ class MessageController extends Controller
     public function destroy($id)
     {
         $message = Message::findOrFail($id);
-        $this->autorize('delete', $message);
+        $this->authorize('delete', $message);
         $message->delete();
         return redirect()->route('messages.index')
                          ->with('success', 'Votre profil a été supprimé !');

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
-
 Route::get('/profil', [App\Http\Controllers\UserController::class, 'index'])->name('profil');
 Route::resource('/user', App\Http\Controllers\UserController::class)->except('create');
 Route::resource('/comment', App\Http\Controllers\CommentController::class);
