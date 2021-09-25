@@ -98,3 +98,4 @@ class UserController extends Controller
                          ->with('success', 'Votre profil a été supprimé !');
     }
 }
+

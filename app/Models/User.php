@@ -60,5 +60,9 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class); // écriture équivalente : return $this->hasMany('App\Models\Comment');
     }
 
+    public function estAdministrateur() {
+        return $this->roles->role == 'admin';         
+    }
+
 }
 

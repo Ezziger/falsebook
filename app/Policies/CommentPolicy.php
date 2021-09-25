@@ -10,6 +10,12 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, $ability) {
+        if ($user->estAdministrateur()) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      *
