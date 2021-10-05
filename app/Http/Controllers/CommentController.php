@@ -38,6 +38,7 @@ class CommentController extends Controller
         $imageName = "";
         $newComment = $request->validate([
             'content' => 'required',
+            'tags' => 'nullable',
         ]);
 
         if ($request->input('image')) {
@@ -48,6 +49,7 @@ class CommentController extends Controller
         $newComment = new Comment;
         $newComment->image = '/images/' . $imageName;
         $newComment->content = $request->content;
+        $newComment->tags = $request->tags;
         $newComment->message_id = $request->message_id;
         $newComment->user_id = auth()->user()->id;
         $newComment->save();
@@ -93,6 +95,7 @@ class CommentController extends Controller
         $updateComment = $request->validate([
             'image' => 'nullable',
             'content' => 'required',
+            'tags' => 'nullable'
         ]);
 
         $updateComment = $request->except('_token', '_method');

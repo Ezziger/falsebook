@@ -6,14 +6,13 @@
     <meta charset="utf-8">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <script src="/js/app.js"></script>
-    <link rel="icon" href="{{ asset("images/duck.png") }}">
 </head>
 
 <header class="text-center">
     <nav class="navbar navbar-expand-md navbar-light bg-warning shadow-sm mb-5">
         <div class="container">
             <!--<a class="navbar-brand ml-2" href="{{ url('/home') }}"><img style="height: 40px; width: 40px;" src="{{ asset("images/duck.png") }}" alt="logo"> -->
-                QuackNet
+                Complots faciles pour briller en société
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>

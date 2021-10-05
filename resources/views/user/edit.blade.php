@@ -25,11 +25,25 @@
     <label for="email" class="form-label">Email</label>
     <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
   </div>
+  <button type="submit" class="btn btn-primary">Modifier vos informations personnelles</button>
+</form>
+
+<form action="{{ route('user.updatePassword', $user->id) }}" method="POST">
+  @csrf
+  @method('PATCH')
   <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <input type="password" class="form-control" id="password" name="password">
+    <label for="oldPassword" class="form-label">Votre mot de passe actuel</label>
+    <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="mb-3">
+    <label for="newPassword" class="form-label">Votre nouveau mot de passe</label>
+    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+  </div>
+  <div class="mb-3">
+    <label for="newPassword_confirmation" class="form-label">Confirmez votre nouveau mot de passe</label>
+    <input type="password" class="form-control" id="newPassword_confirmation" name="newPassword_confirmation" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Modifier votre mot de passe</button>
 </form>
 <form action="{{ route('user.destroy', $user->id) }}" method="post">
     @csrf

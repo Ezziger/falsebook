@@ -21,6 +21,10 @@
                 <label for="content" class="form-label">Courte description de votre image</label>
                 <input type="text" class="form-control" id="content" name="content" value="{{$comment->content}}" required>
             </div>
+            <div class="col mb-3">
+                <label for="tags" class="form-label">Modifier votre tag</label>
+                <input type="text" class="form-control" id="tags" name="tags" value="{{$comment->tags}}" required>
+            </div>
             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
         </form>
     </div>

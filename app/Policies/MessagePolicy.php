@@ -10,21 +10,10 @@ class MessagePolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, $ability) {
+    public function before(User $user) {
         if ($user->estAdministrateur()) {
             return true;
         }
-    }
-
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
     }
 
     /**
@@ -72,29 +61,5 @@ class MessagePolicy
     public function delete(User $user, Message $message)
     {
         return $user->id == $message->user_id;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Message  $message
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Message  $message
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Message $message)
-    {
-        //
     }
 }

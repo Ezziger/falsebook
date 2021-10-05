@@ -10,21 +10,10 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, $ability) {
+    public function before(User $user) {
         if ($user->estAdministrateur()) {
             return true;
         }
-    }
-
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
     }
 
     /**
@@ -72,29 +61,5 @@ class CommentPolicy
     public function delete(User $user, Comment $comment)
     {
         return $user->id == $comment->user_id || $user->id == $comment->message->user->id;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Comment $comment)
-    {
-        //
     }
 }

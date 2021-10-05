@@ -23,6 +23,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/profil', [App\Http\Controllers\UserController::class, 'index'])->name('profil');
 Route::resource('/user', App\Http\Controllers\UserController::class)->except('create');
+Route::patch('/user/{id}/updatePassword', 'App\Http\Controllers\UserController@update_password')->name('user.updatePassword');
 Route::resource('/comment', App\Http\Controllers\CommentController::class);
 Route::resource('/messages', App\Http\Controllers\MessageController::class);
 Route::get('/search', 'App\Http\Controllers\MessageController@search')->name('messages.search');

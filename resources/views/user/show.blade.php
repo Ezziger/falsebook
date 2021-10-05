@@ -1,31 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+<h1>Profil de {{ $user->pseudonyme }}</h1>
 
-<div class="container">
-	<div class="row">
-		<div class="span4 well" style="padding-bottom:0">
-            <form class="d-flex flex-column" action=" {{ route('messages.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div>
-              <label for="content">Message</label>
-                  <textarea class="" id="content" name="content" rows="3"></textarea>
-                  <label for="image">Image</label>
-                  <input type="file" id="image" name="image">
-                  <h6 class="pull-right">320 characters remaining</h6>
-                </div>
-                <div>
-                  <h2>Ajoutez un tag</h2>
-                  <input type="text" id="tags" name="tags">
-                </div>
-                <button class="btn btn-info" type="submit">Poster votre message</button>
-            </form>
-        </div>
-	</div>
-</div>
-<h2>Derniers messages postés</h2>
+<img src="{{$user->image}}" alt="Avatar de l'utilisateur {{$user->pseudonyme}}">
+<h2>Nom : {{$user->nom}}</h2>
+<h2>Prenom : {{$user->prenom}}</h2>
+<h2>Pseudo : {{$user->pseudonyme}}</h2>
+<h2>Email : {{$user->email}}</h2>
 
-@foreach($messages as $message)
+@foreach ($user->messages as $message)
 <div class="card">
   <div class="card-header">
   #{{ $message->tags }}
@@ -52,9 +36,6 @@
       @endcan
     </div>
   </div>
-</div>
-@endforeach
-
-{{ $messages->links() }}
+</div>@endforeach
 
 @endsection

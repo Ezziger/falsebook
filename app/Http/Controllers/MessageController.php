@@ -40,6 +40,7 @@ class MessageController extends Controller
         $imageName = "";
         $newMessage = $request->validate([
             'content' => 'required',
+            'tags' => 'required',
         ]);
 
         if ($request->image) {
@@ -50,6 +51,7 @@ class MessageController extends Controller
         $newMessage = new Message;
         $newMessage->image = '/images/' . $imageName;
         $newMessage->content = $request->content;
+        $newMessage->tags = $request->tags;
         $newMessage->user_id = auth()->user()->id;
         $newMessage->save();
         return redirect()->route('messages.index')
@@ -87,13 +89,13 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Message $message)
     {
-        $message = Message::findOrFail($id);
         $this->authorize('update', $message);
         $updateMessage = $request->validate([
             'image' => 'nullable',
-            'content' => 'required',
+            'content' => 'required', //penser a mettre les conditions
+            'tags' => 'nullable'
         ]);
 
         $updateMessage = $request->except('_token', '_method');
@@ -104,7 +106,7 @@ class MessageController extends Controller
             $updateMessage['image'] = "/images/" . $imageName;
         }
 
-        Message::whereId($id)->update($updateMessage);
+        $message->update($updateMessage);
         return redirect()->route('messages.index')
                          ->with('success', 'Votre message a été modifié avec succès');
 
